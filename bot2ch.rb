@@ -85,7 +85,7 @@ module Bot2ch
           date = Time.local(*_date.scan(/\d+/)[0..5])
           id = _date.scan(/ID:(.*)$/).flatten.first
           %w{name email date id body index}.each{ |key|
-            eval "post.#{key}} = #{key}"
+            eval "post.#{key} = #{key}"
           }
           index += 1
           post
