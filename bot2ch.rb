@@ -41,6 +41,10 @@ module Bot2ch
       end
       threads
     end
+
+    def threads
+      @threads ||= get_threads
+    end
   end
 
   class Thread
@@ -70,9 +74,25 @@ module Bot2ch
       images
     end
 
+    def posts
+      return @posts if @contents
+      open(@dat) do |f|
+        lines = f.read.toutf8
+        @posts = lines.map do |line|
+          post = Post.new
+          post.name, post.email, post.date, post.body = line.split('<>')
+          post
+        end
+      end
+    end
+
     def dat_no
       File.basename(@dat, '.dat')
     end
+  end
+
+  class Post
+    attr_accessor :name, :email, :date, :body
   end
 
   class Downloader
