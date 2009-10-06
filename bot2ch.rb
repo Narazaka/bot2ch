@@ -76,11 +76,14 @@ module Bot2ch
 
     def posts
       return @posts if @contents
+      counter = 1
       open(@dat) do |f|
         lines = f.read.toutf8
         @posts = lines.map do |line|
           post = Post.new
           post.name, post.email, post.date, post.body = line.split('<>')
+          post.index = counter
+          counter += 1
           post
         end
       end
@@ -92,7 +95,7 @@ module Bot2ch
   end
 
   class Post
-    attr_accessor :name, :email, :date, :body
+    attr_accessor :name, :email, :date, :body, :index
   end
 
   class Downloader
