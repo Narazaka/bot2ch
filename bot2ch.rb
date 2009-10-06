@@ -76,14 +76,18 @@ module Bot2ch
 
     def posts
       return @posts if @contents
-      counter = 1
+      index = 1
       open(@dat) do |f|
         lines = f.read.toutf8
         @posts = lines.map do |line|
           post = Post.new
-          post.name, post.email, post.date, post.body = line.split('<>')
-          post.index = counter
-          counter += 1
+          name, email, _date, body = line.split('<>')
+          date = Time.local(*_date.scan(/\d+/)[0..5])
+          id = _date.scan(/ID:(.*)$/).flatten.first
+          %w{name email date id body index}.each{ |key|
+            eval "post.#{key}} = #{key}"
+          }
+          index += 1
           post
         end
       end
@@ -95,7 +99,7 @@ module Bot2ch
   end
 
   class Post
-    attr_accessor :name, :email, :date, :body, :index
+    attr_accessor :name, :email, :date, :body, :index, :id
   end
 
   class Downloader
