@@ -48,11 +48,16 @@ module Bot2ch
   end
 
   class Thread
-    attr_accessor :title
+    attr_accessor :dat, :title
 
     def initialize(url, title)
       @dat = url
       @title = title.strip
+    end
+
+    def url
+      list = @dat.split('/').reject{|f| f == ''}
+      "http://#{list[1]}/test/read.cgi/#{list[2]}/#{list[4].scan(/\d/)}"
     end
 
     def get_images
@@ -87,6 +92,7 @@ module Bot2ch
           %w{name email date id body index}.each{ |key|
             eval "post.#{key} = #{key}"
           }
+          post.thread = self
           index += 1
           post
         end
@@ -99,7 +105,11 @@ module Bot2ch
   end
 
   class Post
-    attr_accessor :name, :email, :date, :body, :index, :id
+    attr_accessor :name, :email, :date, :body, :index, :id, :thread
+
+    def url
+      "#{self.thread.url}/#{self.index}"
+    end
   end
 
   class Downloader
