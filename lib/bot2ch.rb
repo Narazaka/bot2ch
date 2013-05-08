@@ -1,6 +1,4 @@
 require 'open-uri'
-require 'kconv'
-require 'net/http'
 
 require "bot2ch/version"
 require "bot2ch/menu"
