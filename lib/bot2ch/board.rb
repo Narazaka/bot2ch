@@ -6,15 +6,10 @@ module Bot2ch
     end
 
     def get_threads
-      threads = []
-      open(@subject) do |f|
-        lines = f.read.encode("utf-8")
-        lines.each do |line|
-          dat, title = line.split('<>')
-          threads << Thread.new("#{@url}/dat/#{dat}", title)
-        end
+      open(@subject).readlines.map do |line|
+        dat, title = line.split("<>")
+        Thread.new("#{@url}/dat/#{dat}", title)
       end
-      threads
     end
 
     def threads
