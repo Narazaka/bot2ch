@@ -14,4 +14,8 @@ module Bot2ch
     require "bot2ch/downloader/normal_image_downloader"
     require "bot2ch/downloader/imepita_downloader"
   end
+
+  def encode(strings, to = "UTF-8")
+    strings.encode("UTF-16BE", "SHIFT_JIS", :invalid => :replace, :undef => :replace, :replace => '?').encode(to)
+  end
 end

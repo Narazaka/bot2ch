@@ -14,6 +14,7 @@ module Bot2ch
 
     def posts
       open(@dat).readlines.map.with_index(1) do |line, index|
+        line = Bot2ch.encode(line)
         post = Post.new
         name, email, _date, body = line.split('<>')
         date = Time.local(*_date.scan(/\d+/)[0..5])
