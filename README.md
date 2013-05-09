@@ -6,7 +6,12 @@
     thread = football.threads.first
     puts thread.title
     thread.posts.each do |post|
-      puts post.plain
+      puts post.plain # or post.block
+      if post.has_replies?
+        post.replies.each do |reply|
+          puts "\t#{reply.plain}"
+        end
+      end
     end
 
 ## Contributing
