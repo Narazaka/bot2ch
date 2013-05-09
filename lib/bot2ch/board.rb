@@ -5,15 +5,17 @@ module Bot2ch
       @subject = URI.join(url, "subject.txt")
     end
 
+    def threads
+      @threads ||= get_threads
+    end
+
+    private
+
     def get_threads
       open(@subject).readlines.map do |line|
         dat, title = line.split("<>")
         Thread.new("#{@url}/dat/#{dat}", title)
       end
-    end
-
-    def threads
-      @threads ||= get_threads
     end
   end
 end
