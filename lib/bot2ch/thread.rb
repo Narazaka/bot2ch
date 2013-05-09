@@ -13,6 +13,20 @@ module Bot2ch
     end
 
     def posts
+      @posts ||= get_posts
+    end
+
+    def reload
+      @posts = get_posts
+    end
+
+    def dat_no
+      File.basename(@dat, '.dat')
+    end
+
+    private
+
+    def get_posts
       open(@dat).readlines.map.with_index(1) do |line, index|
         line = Bot2ch.encode(line)
         post = Post.new
@@ -25,10 +39,6 @@ module Bot2ch
         post.thread = self
         post
       end
-    end
-
-    def dat_no
-      File.basename(@dat, '.dat')
     end
   end
 end
