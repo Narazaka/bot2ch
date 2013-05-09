@@ -14,6 +14,9 @@
       end
     end
 
+    Bot2ch.enable_downloader
+    thread.images.each_with_index{ |image, idx| image.download("#{idx}.jpg") }
+
 ## Contributing
 
 1. Fork it
