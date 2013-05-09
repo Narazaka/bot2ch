@@ -10,17 +10,17 @@ module Bot2ch
       "#{index} : #{name}(#{email}) : #{date} ID:#{id}\n#{body}"
     end
 
-    def responses
-      @responses ||= parse_response
+    def replies
+      @replies ||= parse_replies
     end
 
-    def has_response?
-      !responses.empty?
+    def has_replies?
+      !replies.empty?
     end
 
     private
 
-    def parse_response
+    def parse_replies
       self.thread.posts.select do |post|
         post.body =~ /&gt;&gt;#{self.index}/
       end
