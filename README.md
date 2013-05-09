@@ -1,25 +1,5 @@
 # Bot2ch
 
-TODO: Write a gem description
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'bot2ch'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install bot2ch
-
-## Usage
-
-TODO: Write usage instructions here
-
 ## Contributing
 
 1. Fork it
