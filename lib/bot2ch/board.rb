@@ -2,7 +2,7 @@ module Bot2ch
   class Board
     def initialize(url)
       @url = url
-      @subject = "#{url}/subject.txt"
+      @subject = URI.join(url, "subject.txt")
     end
 
     def get_threads
