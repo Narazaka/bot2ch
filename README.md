@@ -1,5 +1,14 @@
 # Bot2ch
 
+## Usage
+
+    football = Bot2ch::Menu.get_board("football")
+    thread = football.threads.first
+    puts thread.title
+    thread.posts.each do |post|
+      puts post.plain
+    end
+
 ## Contributing
 
 1. Fork it
