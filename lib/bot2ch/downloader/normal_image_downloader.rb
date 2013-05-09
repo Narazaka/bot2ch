@@ -1,5 +1,10 @@
-module Bot2ch::
+module Bot2ch
   class NormalImageDownloader < Downloader
+
+    def to_s
+      @url
+    end
+
     def download(saveTo)
       http = Net::HTTP.new(uri.host, 80)
       res = http.get(uri.path)

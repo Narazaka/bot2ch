@@ -24,7 +24,29 @@ module Bot2ch
       File.basename(@dat, '.dat')
     end
 
+    def images
+      @images ||= get_images
+    end
+
     private
+
+    def get_images
+      images = []
+      posts.each do |post|
+        post.body.scan(/\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+/i).each do |image|
+          image = "http:#{image}"
+          case
+          when ImepitaDownloader.match(image)
+            images << ImepitaDownloader.new(image)
+          when NormalImageDownloader.match(image)
+            images << NormalImageDownloader.new(image)
+          else
+            next
+          end
+        end
+      end
+      images
+    end
 
     def get_posts
       open(@dat).readlines.map.with_index(1) do |line, index|
