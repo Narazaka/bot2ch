@@ -5,5 +5,9 @@ module Bot2ch
     def url
       "#{self.thread.url}/#{self.index}"
     end
+
+    def plain
+      "#{index} : #{name}(#{email}) : #{date} ID:#{id}\n#{body}"
+    end
   end
 end

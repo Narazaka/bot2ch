@@ -8,6 +8,10 @@ require "bot2ch/post"
 require "bot2ch/thread"
 
 module Bot2ch
-  # Your code goes here...
+  module_function
+  def enable_downloader
+    require "bot2ch/downloader/downloader"
+    require "bot2ch/downloader/normal_image_downloader"
+    require "bot2ch/downloader/imepita_downloader"
+  end
 end
-
