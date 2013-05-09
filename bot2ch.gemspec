@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Bot2ch::VERSION
   spec.authors       = ["Manbo-"]
   spec.email         = ["manbo-@server.fake"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{2ch}
+  spec.summary       = %q{2ch}
   spec.homepage      = ""
   spec.license       = "MIT"
 
