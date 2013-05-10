@@ -2,26 +2,55 @@
 
 require 'thor'
 require 'bot2ch'
+require 'thwait'
 
 module Bot2ch
   class App < Thor
     WAIT_TIME = 3
+    THREAD_LIMIT = 3
     Bot2ch.enable_downloader
 
     desc 'download', 'download images'
     def download(thread, dir = ".", wait_time = WAIT_TIME)
-      thread = Bot2ch::Thread.url_to_dat(thread)
-      images = Bot2ch::Thread.new(thread).images
-      images.each.with_index(1) do |image, idx|
-        image.download_to(dir)
-        sleep wait_time if idx != images.size
+      dat = Bot2ch::Thread.url_to_dat(thread)
+      images = Bot2ch::Thread.new(dat).images
+      images = images.group_by{ |image| URI.parse(image.to_s).host }
+      thall = ThreadsWait.new
+      images.each do |host, imgs|
+        sleep 1 while thall.threads.select(&:alive?).size > THREAD_LIMIT
+        thread = ::Thread.new do
+          imgs.each.with_index(1) do |image, idx|
+            image.download_to(dir)
+            sleep wait_time if idx != imgs.size
+          end
+        end
+        thall.join_nowait(thread)
       end
+      thall.all_waits
     end
 
     desc 'show', 'show images'
     def show(thread)
       thread = Bot2ch::Thread.url_to_dat(thread)
       puts Bot2ch::Thread.new(thread).images
+    end
+
+    desc "thread", "thread"
+    def thread
+      thall = ThreadsWait.new
+      threads = []
+      5.times do |i|
+        sleep 1 while thall.threads.select(&:alive?).size > 3
+        p thall.threads
+        p "--"
+        threads << ::Thread.new do
+          puts "start #{i}"
+          sleep 5
+          puts "end #{i}"
+        end
+        thall.join_nowait(*threads)
+      end
+      thall.all_waits
     end
   end
 end
