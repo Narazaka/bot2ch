@@ -1,5 +1,7 @@
 module Bot2ch
   class Downloader
+    EXTENSIONS = "jpg|jpeg|gif|png"
+
     attr_accessor :uri, :url
 
     def initialize(url)

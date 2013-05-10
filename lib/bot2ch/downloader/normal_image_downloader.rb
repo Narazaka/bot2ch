@@ -12,7 +12,7 @@ module Bot2ch
     end
 
     def self.match(url)
-      url =~ /.jpg$/i
+      url =~ /.#{EXTENSIONS}$/i
     end
   end
 end
