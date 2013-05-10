@@ -41,7 +41,7 @@ module Bot2ch
     private
 
     def default_dir_name(thread)
-      "~/Downloads/2ch/#{thread.ita}/#{thread.dat_no}/"
+      "#{ENV['HOME']}/Downloads/2ch/#{thread.ita}/#{thread.dat_no}/"
     end
   end
 end

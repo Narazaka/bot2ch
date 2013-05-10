@@ -19,10 +19,15 @@ module Bot2ch
       end
     end
 
-    def download_to(dir)
+    def download_to(dir, override = nil)
       basename = File.basename(self.url)
       FileUtils.mkdir_p(dir) unless File.exist?(dir)
-      download(File.join(dir, basename))
+      save_to = File.join(dir, basename)
+      if !override and File.exist?(save_to)
+        puts "already exist: #{self.url}"
+        return
+      end
+      download(save_to)
     end
   end
 end
