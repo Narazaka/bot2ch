@@ -9,13 +9,13 @@ module Bot2ch
       @uri = URI.parse(@url)
     end
 
-    def save(res, saveTo)
+    def save(res, save_to)
       puts "download: #{url}"
       case res
       when Net::HTTPSuccess
-        open(saveTo, 'wb') do |f|
-          f.write res.body
-        end
+        open(save_to, 'wb').write(res.body)
+      else
+        puts "error: #{url}"
       end
     end
 
