@@ -17,3 +17,5 @@ test/version_tmp
 tmp
 bot2ch-*.gem
 spec/vcr
+bin/*
+!bin/bot2ch
