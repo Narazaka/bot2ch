@@ -20,7 +20,8 @@
 
 ## Command
 
-    bot2ch http://hoge.2ch.net/test/read.cgi/fuga/8098092/ save_dir
+    bot2ch show http://hoge.2ch.net/test/read.cgi/fuga/8098092/
+    bot2ch download http://hoge.2ch.net/test/read.cgi/fuga/8098092/ save_dir
 
 ## Contributing
 

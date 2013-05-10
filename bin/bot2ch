@@ -6,16 +6,22 @@ require 'bot2ch'
 module Bot2ch
   class App < Thor
     WAIT_TIME = 3
+    Bot2ch.enable_downloader
 
     desc 'download', 'download images'
     def download(thread, dir = ".", wait_time = WAIT_TIME)
-      Bot2ch.enable_downloader
       thread = Bot2ch::Thread.url_to_dat(thread)
       images = Bot2ch::Thread.new(thread).images
       images.each.with_index(1) do |image, idx|
         image.download_to(dir)
         sleep wait_time if idx != images.size
       end
+    end
+
+    desc 'show', 'show images'
+    def show(thread)
+      thread = Bot2ch::Thread.url_to_dat(thread)
+      puts Bot2ch::Thread.new(thread).images
     end
   end
 end
