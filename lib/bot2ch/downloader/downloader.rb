@@ -16,5 +16,11 @@ module Bot2ch
         end
       end
     end
+
+    def download_to(dir)
+      basename = File.basename(self.url)
+      FileUtils.mkdir_p(dir) unless File.exist?(dir)
+      download(File.join(dir, basename))
+    end
   end
 end

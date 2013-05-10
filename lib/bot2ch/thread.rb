@@ -1,10 +1,17 @@
 module Bot2ch
   class Thread
+    class << self
+      def url_to_dat(url)
+        list = url.split('/')
+        "http://#{list[2]}/#{list[5]}/dat/#{list[6]}.dat"
+      end
+    end
+
     attr_accessor :dat, :title
 
-    def initialize(url, title)
+    def initialize(url, title = nil)
       @dat = url
-      @title = title.strip
+      @title = title.strip if title
     end
 
     def url

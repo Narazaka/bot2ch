@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'fileutils'
 
 require "bot2ch/version"
 require "bot2ch/menu"
