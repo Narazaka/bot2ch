@@ -35,24 +35,6 @@ module Bot2ch
       puts Bot2ch::Thread.new(thread).images
     end
 
-    desc "thread", "thread"
-    def thread
-      thall = ThreadsWait.new
-      threads = []
-      5.times do |i|
-        sleep 1 while thall.threads.select(&:alive?).size > 3
-        p thall.threads
-        p "--"
-        threads << ::Thread.new do
-          puts "start #{i}"
-          sleep 5
-          puts "end #{i}"
-        end
-        thall.join_nowait(*threads)
-      end
-      thall.all_waits
-    end
-
     private
 
     def default_dir_name
