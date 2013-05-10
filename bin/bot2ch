@@ -12,7 +12,7 @@ module Bot2ch
 
     desc 'download', 'download images'
     def download(thread, dir = default_dir_name, wait_time = WAIT_TIME)
-      dat = Bot2ch::Thread.url_to_dat(thread)
+      dat = Bot2ch::Thread.dat?(thread) ? dat : Bot2ch::Thread.url_to_dat(thread)
       images = Bot2ch::Thread.new(dat).images
       images = images.group_by{ |image| URI.parse(image.to_s).host }
       thall = ThreadsWait.new

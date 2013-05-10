@@ -5,6 +5,10 @@ module Bot2ch
         list = url.split('/')
         "http://#{list[2]}/#{list[5]}/dat/#{list[6]}.dat"
       end
+
+      def dat?(url)
+        url =~ %r[/dat/] and url =~ /\.dat$/
+      end
     end
 
     attr_accessor :dat, :title
