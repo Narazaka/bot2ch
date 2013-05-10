@@ -39,6 +39,10 @@ module Bot2ch
       @images ||= get_images
     end
 
+    def ita
+      @dat.split("/")[3]
+    end
+
     private
 
     def get_images

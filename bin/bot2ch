@@ -11,11 +11,14 @@ module Bot2ch
     Bot2ch.enable_downloader
 
     desc 'download', 'download images'
-    def download(thread, dir = default_dir_name, wait_time = WAIT_TIME)
+    def download(thread, dir = nil, wait_time = WAIT_TIME)
       dat = Bot2ch::Thread.dat?(thread) ? dat : Bot2ch::Thread.url_to_dat(thread)
-      images = Bot2ch::Thread.new(dat).images
+      thread = Bot2ch::Thread.new(dat)
+      dir ||= default_dir_name(thread)
+      images = thread.images
       images = images.group_by{ |image| URI.parse(image.to_s).host }
       thall = ThreadsWait.new
+      puts "save to: #{dir}"
       images.each do |host, imgs|
         sleep 1 while thall.threads.select(&:alive?).size > THREAD_LIMIT
         thread = ::Thread.new do
@@ -37,8 +40,8 @@ module Bot2ch
 
     private
 
-    def default_dir_name
-      "./#{Time.now.strftime("%Y%m%d_%H%M%S")}/"
+    def default_dir_name(thread)
+      "~/Downloads/2ch/#{thread.ita}/#{thread.dat_no}/"
     end
   end
 end
