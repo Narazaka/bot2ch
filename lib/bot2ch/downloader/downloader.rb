@@ -24,8 +24,7 @@ module Bot2ch
       FileUtils.mkdir_p(dir) unless File.exist?(dir)
       save_to = File.join(dir, basename)
       if !override and File.exist?(save_to)
-        puts "already exist: #{self.url}"
-        return
+        puts "already exist: #{self.url}" and return
       end
       download(save_to)
     end
