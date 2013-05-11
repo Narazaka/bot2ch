@@ -9,6 +9,11 @@ module Bot2ch
       @threads ||= get_threads
     end
 
+    def each
+      threads.each{ |thread| yield thread }
+    end
+    include Enumerable
+
     private
 
     def get_threads
