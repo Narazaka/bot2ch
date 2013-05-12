@@ -20,7 +20,7 @@ module Bot2ch
 
     def url
       list = @dat.split('/').reject{|f| f == ''}
-      "http://#{list[1]}/test/read.cgi/#{list[2]}/#{list[4].scan(/\d/)}"
+      "http://#{list[1]}/test/read.cgi/#{list[2]}/#{list[4][/\d+/]}/"
     end
 
     def posts
