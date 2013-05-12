@@ -68,6 +68,7 @@ module Bot2ch
         line = Bot2ch.encode(line)
         post = Post.new
         name, email, _date, body = line.split('<>')
+        next unless _date =~ /\d/
         date = Time.local(*_date.scan(/\d+/)[0..5])
         id = _date.scan(/ID:(.*)$/).flatten.first
         %w{name email date id body index}.each{ |key|
@@ -75,7 +76,7 @@ module Bot2ch
         }
         post.thread = self
         post
-      end
+      end.compact
     end
   end
 end
