@@ -12,6 +12,7 @@ module Bot2ch
 
     desc 'download', 'download images'
     option :wait
+    option :thread
     option :override, :type => :boolean
     def download(thread, dir = nil)
       dat = Bot2ch::Thread.dat?(thread) ? dat : Bot2ch::Thread.url_to_dat(thread)
@@ -19,14 +20,11 @@ module Bot2ch
       dir ||= default_dir_name(thread)
       wait_time = options[:wait_time] || WAIT_TIME
       images = thread.images
-      if images.empty?
-        puts "image not found" and return 
-      end
-      images = images.group_by{ |image| URI.parse(image.to_s).host }
+      puts "image not found" and return if images.empty?
       thall = ThreadsWait.new
       puts "save to: #{dir}"
-      images.each do |host, imgs|
-        sleep 1 while thall.threads.select(&:alive?).size > THREAD_LIMIT
+      images.group_by{ |image| URI.parse(image.to_s).host }.each do |host, imgs|
+        sleep 1 while thall.threads.select(&:alive?).size > thread_limit(options[:thread])
         thread = ::Thread.new do
           imgs.each.with_index(1) do |image, idx|
             image.download_to(dir, options[:override])
@@ -48,6 +46,10 @@ module Bot2ch
 
     def default_dir_name(thread)
       "#{ENV['HOME']}/Downloads/2ch/#{thread.ita}/#{thread.dat_no}/"
+    end
+
+    def thread_limit(option)
+      option ? option.to_i : THREAD_LIMIT
     end
   end
 end
