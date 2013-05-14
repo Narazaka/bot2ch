@@ -30,7 +30,7 @@ module Bot2ch
 
       thall = ThreadsWait.new
       puts "save to: #{dir}"
-      puts "wait_time:#{wait_time}, thread: #{thread_limit}, override: #{override ? 'yes' : 'no'}, save_to: #{dir}"
+      puts "wait_time:#{wait_time}, thread: #{thread_limit}, override: #{override ? 'yes' : 'no'}"
       images.group_by{ |image| URI.parse(image.to_s).host }.each do |host, imgs|
         sleep 1 while thall.threads.select(&:alive?).size > thread_limit
         thread = ::Thread.new do
@@ -46,7 +46,8 @@ module Bot2ch
 
     desc 'show', 'show images'
     def show(thread)
-      thread = Bot2ch::Thread.url_to_dat(thread)
+      dat = Bot2ch::Thread.dat?(thread) ? dat : Bot2ch::Thread.url_to_dat(thread)
+      thread = Bot2ch::Thread.new(dat)
       puts Bot2ch::Thread.new(thread).images
     end
 
