@@ -3,7 +3,7 @@
 ## Usage
 
     football = Bot2ch::Menu.get_board("football")
-    thread = football.threads.first
+    thread = football.threads.find{ |thread| thread.title =~ /nanika/ }
     puts thread.title
     thread.posts.each do |post|
       puts post.plain # or post.block
