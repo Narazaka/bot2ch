@@ -17,7 +17,7 @@ module Bot2ch
     private
 
     def get_threads
-      open(@subject).readlines.map do |line|
+      open(@subject, "r:sjis").readlines.map do |line|
         dat, title = line.split("<>")
         Thread.new("#{@url}/dat/#{dat}", Bot2ch.encode(title))
       end

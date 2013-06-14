@@ -15,7 +15,7 @@ module Bot2ch
       when Net::HTTPSuccess
         open(save_to, 'wb').write(res.body)
       else
-        puts "error: #{url}"
+        puts "error: #{url}".color(:red)
       end
     end
 
@@ -24,7 +24,7 @@ module Bot2ch
       FileUtils.mkdir_p(dir) unless File.exist?(dir)
       save_to = File.join(dir, basename)
       if !override and File.exist?(save_to)
-        puts "already exist: #{self.url}" and return
+        puts "already exist: #{self.url}".color(:cyan) and return
       end
       download(save_to)
     end
