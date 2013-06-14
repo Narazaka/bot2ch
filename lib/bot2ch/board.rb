@@ -19,7 +19,7 @@ module Bot2ch
     def get_threads
       open(@subject, "r:sjis").readlines.map do |line|
         line = Bot2ch.encode(line)
-        dat, title = line.split("<>")
+        dat, title = line.chomp.split("<>")
         Thread.new("#{@url}dat/#{dat}", title)
       end
     end
