@@ -65,7 +65,6 @@ module Bot2ch
 
     def get_posts
       open(@dat, "r:sjis").readlines.map.with_index(1) do |line, index|
-        line = Bot2ch.encode(line)
         post = Post.new
         name, email, _date, body = line.split('<>')
         next unless _date =~ /\d/
