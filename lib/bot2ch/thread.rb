@@ -64,7 +64,8 @@ module Bot2ch
     end
 
     def get_posts
-      open(@dat, "r:sjis").readlines.map.with_index(1) do |line, index|
+      # rails
+      Bot2ch.encode(open(@dat, "r:binary").read).lines.map.with_index(1) do |line, index|
         post = Post.new
         name, email, _date, body = line.split('<>')
         next unless _date =~ /\d/
