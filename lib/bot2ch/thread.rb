@@ -14,7 +14,7 @@ module Bot2ch
     attr_accessor :dat, :title
 
     def initialize(url, title = nil)
-      @dat = url
+      @dat = Thread.dat?(url) ? url : Thread.url_to_dat(url)
       @title = title.strip if title
     end
 
