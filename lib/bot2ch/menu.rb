@@ -2,6 +2,7 @@ module Bot2ch
   class Menu
     BBS_MENU = 'http://menu.2ch.net/bbsmenu.html'
     @@menu = nil
+    @@boards = []
 
     class << self
       def boards
@@ -13,7 +14,15 @@ module Bot2ch
 
       def get_board(subdir)
         menu.each do |line|
-          return Board.new($1) if line =~ regexp(subdir)
+          if line =~ regexp(subdir)
+            if board = @@boards.find{ |board| board.url == $1 }
+              return board
+            else
+              board = Board.new($1)
+              @@boards << board
+              return board
+            end
+          end
         end
         raise ArgumentError
       end
