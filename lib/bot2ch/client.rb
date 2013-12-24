@@ -1,6 +1,5 @@
 require "faraday"
 require "faraday_middleware"
-require "faraday-http-cache"
 require "singleton"
 
 module Bot2ch
