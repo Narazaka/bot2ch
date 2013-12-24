@@ -8,6 +8,6 @@ describe Bot2ch::Board do
     VCR.use_cassette("threads") do
       @threads = @board.threads
     end
-    @threads.should be_a_kind_of(Array)
+    expect(@threads).to be_a_kind_of(Array)
   end
 end

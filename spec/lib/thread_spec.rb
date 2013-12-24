@@ -7,26 +7,35 @@ describe Bot2ch::Thread do
   subject{ @thread }
 
   it do
-    Bot2ch::Thread.dat?(url).should be_true
+    expect(Bot2ch::Thread.dat?(url)).to be_truthy
   end
 
-  its(:url) do
+  describe '#url' do
+    subject { super().url }
+    it do
     should == "http://ikura.2ch.net/test/read.cgi/football/1366976995/"
   end
-
-  its(:dat_no) do
-    should == "1366976995"
   end
 
-  its(:ita) do
+  describe '#dat_no' do
+    subject { super().dat_no }
+    it do
+    should == "1366976995"
+  end
+  end
+
+  describe '#ita' do
+    subject { super().ita }
+    it do
     should == "football"
+  end
   end
 
   it "#posts" do
     VCR.use_cassette("posts") do
       @posts = @thread.posts
     end
-    @posts.should be_a_kind_of(Array)
+    expect(@posts).to be_a_kind_of(Array)
   end
 
   it "#images" do
@@ -35,6 +44,6 @@ describe Bot2ch::Thread do
     VCR.use_cassette("images") do
       @images = @thread.images
     end
-    @images.should be_a_kind_of(Array)
+    expect(@images).to be_a_kind_of(Array)
   end
 end
