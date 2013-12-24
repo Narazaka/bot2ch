@@ -13,22 +13,22 @@ describe Bot2ch::Thread do
   describe '#url' do
     subject { super().url }
     it do
-    should == "http://ikura.2ch.net/test/read.cgi/football/1366976995/"
-  end
+      should == "http://ikura.2ch.net/test/read.cgi/football/1366976995/"
+    end
   end
 
   describe '#dat_no' do
     subject { super().dat_no }
     it do
-    should == "1366976995"
-  end
+      should == "1366976995"
+    end
   end
 
   describe '#ita' do
     subject { super().ita }
     it do
-    should == "football"
-  end
+      should == "football"
+    end
   end
 
   it "#posts" do

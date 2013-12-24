@@ -8,27 +8,19 @@ module Bot2ch
     attr_reader :url, :subject
 
     def threads
-      @threads ||= get_threads
+      @threads ||= reload
     end
 
     def reload
-      @threads = get_threads
+      Client.get(@subject).map do |line|
+        dat, title = line.split("<>")
+        Thread.new("#{@url}dat/#{dat}", title)
+      end
     end
 
     def each
       threads.each{ |thread| yield thread }
     end
     include Enumerable
-
-    private
-
-    def get_threads
-      puts "get_thread!"
-      # rails
-      Bot2ch.encode(open(@subject, "r:binary").read).lines.map do |line|
-        dat, title = line.chomp.split("<>")
-        Thread.new("#{@url}dat/#{dat}", title)
-      end
-    end
   end
 end

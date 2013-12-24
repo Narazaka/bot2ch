@@ -1,13 +1,14 @@
 require "spec_helper"
 
 describe Bot2ch::Board do
-  let(:url){ "http://ikura.2ch.net/football/" }
-  before{ @board = Bot2ch::Board.new(url) }
+  before do
+    @board = Bot2ch::Board.new("http://ikura.2ch.net/football/")
+  end
 
   it do
     VCR.use_cassette("threads") do
       @threads = @board.threads
     end
-    expect(@threads).to be_a_kind_of(Array)
+    expect(@threads).to be_a_kind_of Array
   end
 end

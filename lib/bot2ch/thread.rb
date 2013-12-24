@@ -24,11 +24,22 @@ module Bot2ch
     end
 
     def posts
-      @posts ||= get_posts
+      @posts ||= reload
     end
 
     def reload
-      @posts = get_posts
+      @posts = Client.get(@dat).map.with_index(1) do |line, index|
+        post = Post.new
+        name, email, _date, body = line.split('<>')
+        next unless _date =~ /\d/
+        date = Time.local(*_date.scan(/\d+/)[0..5])
+        id = _date.scan(/ID:(.*)$/).flatten.first
+        %w{name email date id body index}.each{ |key|
+          eval "post.#{key} = #{key}"
+        }
+        post.thread = self
+        post
+      end.compact
     end
 
     def dat_no
@@ -61,22 +72,6 @@ module Bot2ch
         end
       end
       images
-    end
-
-    def get_posts
-      # rails
-      Bot2ch.encode(open(@dat, "r:binary").read).lines.map.with_index(1) do |line, index|
-        post = Post.new
-        name, email, _date, body = line.split('<>')
-        next unless _date =~ /\d/
-        date = Time.local(*_date.scan(/\d+/)[0..5])
-        id = _date.scan(/ID:(.*)$/).flatten.first
-        %w{name email date id body index}.each{ |key|
-          eval "post.#{key} = #{key}"
-        }
-        post.thread = self
-        post
-      end.compact
     end
   end
 end
