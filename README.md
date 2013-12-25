@@ -1,4 +1,5 @@
 # Bot2ch
+[![Build Status](https://travis-ci.org/Manbo-/bot2ch.png)](https://travis-ci.org/Manbo-/bot2ch)
 
 ## Usage
 
