@@ -11,23 +11,20 @@ describe Bot2ch::Thread do
   end
 
   describe '#url' do
-    subject { super().url }
     it do
-      should == "http://ikura.2ch.net/test/read.cgi/football/1366976995/"
+      expect(@thread.url).to eq "http://ikura.2ch.net/test/read.cgi/football/1366976995/"
     end
   end
 
   describe '#dat_no' do
-    subject { super().dat_no }
     it do
-      should == "1366976995"
+      expect(@thread.dat_no).to eq "1366976995"
     end
   end
 
   describe '#ita' do
-    subject { super().ita }
     it do
-      should == "football"
+      expect(@thread.ita).to eq "football"
     end
   end
 
