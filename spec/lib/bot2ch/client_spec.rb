@@ -3,7 +3,7 @@ require "spec_helper"
 describe Bot2ch::Client do
   describe "instance methods" do
     before do
-      @crawler = Bot2ch::Client.instance
+      @client = Bot2ch::Client.instance
     end
 
     it "is singleton" do
@@ -13,7 +13,7 @@ describe Bot2ch::Client do
     describe "#get" do
       let(:response) do
         VCR.use_cassette "crawler.get" do
-          @crawler.get("http://ikura.2ch.net/football/")
+          @client.get("http://ikura.2ch.net/football/")
         end
       end
       
@@ -23,6 +23,19 @@ describe Bot2ch::Client do
       
       it do
         expect(response.body.encoding.name).to eq "UTF-8"
+      end
+    end
+
+    describe "#config" do
+      before do
+        @client.config do |client|
+          client.headers["Referer"] = "example"
+        end
+      end
+
+      it do
+        referer = @client.instance_eval{ @client.headers["Referer"] }
+        expect(referer).to eq "example"
       end
     end
   end

@@ -7,8 +7,9 @@ module Bot2ch
     include Singleton
 
     class << self
-      def get(url)
+      def get(url, &block)
         client = Client.instance
+        client.config(&block) if block_given?
         client.get(url).body.lines.map(&:chomp)
       end
     end
@@ -20,6 +21,10 @@ module Bot2ch
         builder.use Faraday::Response::RaiseError
         builder.adapter :net_http
       end
+    end
+
+    def config(&block)
+      @client.instance_eval(&block)
     end
 
     def get(url)
