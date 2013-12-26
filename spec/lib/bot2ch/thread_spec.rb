@@ -28,19 +28,12 @@ describe Bot2ch::Thread do
     end
   end
 
-  it "#posts" do
-    VCR.use_cassette("posts") do
-      @posts = @thread.posts
+  describe "#posts" do
+    it do
+      VCR.use_cassette("posts") do
+        @posts = @thread.posts
+      end
+      expect(@posts).to be_a_kind_of(Array)
     end
-    expect(@posts).to be_a_kind_of(Array)
-  end
-
-  it "#images" do
-    Bot2ch.enable_downloader
-
-    VCR.use_cassette("images") do
-      @images = @thread.images
-    end
-    expect(@images).to be_a_kind_of(Array)
   end
 end
