@@ -29,13 +29,13 @@ describe Bot2ch::Client do
     describe "#config" do
       before do
         @client.config do |client|
-          client.headers["Referer"] = "example"
+          client.headers["Referer"] = "user agent"
         end
       end
 
       it do
         referer = @client.instance_eval{ @client.headers["Referer"] }
-        expect(referer).to eq "example"
+        expect(referer).to eq "user agent"
       end
     end
   end

@@ -2,7 +2,10 @@ class Faraday::Response
   class SjisToUTF8 < Faraday::Response::Middleware
     def call(env)
       @app.call(env).on_complete do
-        env[:body] = scrub(env[:body]).encode("UTF-8")
+        content_type = env[:response_headers]["content-type"].split(";").first
+        if content_type == "text/plain"
+          env[:body] = scrub(env[:body]).encode("UTF-8")
+        end
       end
     end
 

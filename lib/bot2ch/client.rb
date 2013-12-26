@@ -7,8 +7,9 @@ module Bot2ch
     include Singleton
 
     class << self
-      def get(url, &block)
+      def get(url, headers = {}, &block)
         client = Client.instance
+        client.headers = headers
         client.config(&block) if block_given?
         client.get(url).body.lines.map(&:chomp)
       end
@@ -23,11 +24,16 @@ module Bot2ch
       end
     end
 
+    def headers=(headers)
+      @client.headers.merge!(headers)
+    end
+
     def config(&block)
       @client.instance_eval(&block)
     end
 
-    def get(url)
+    def get(url, headers = {})
+      self.headers = headers
       @client.get(url)
     end
   end
