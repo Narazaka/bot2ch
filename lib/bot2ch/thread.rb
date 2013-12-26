@@ -32,7 +32,7 @@ module Bot2ch
         post = Post.new
         name, email, _date, body = line.split('<>')
         next unless _date =~ /\d/
-        date = Time.local(*_date.scan(/\d+/)[0..5])
+        date = Time.local(*_date.scan(/\d+/)[0..5]) rescue next
         id = _date.scan(/ID:(.*)$/).flatten.first
         %w{name email date id body index}.each{ |key|
           eval "post.#{key} = #{key}"
