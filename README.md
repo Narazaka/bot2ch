@@ -1,6 +1,11 @@
 # Bot2ch
 [![Build Status](https://travis-ci.org/Manbo-/bot2ch.png)](https://travis-ci.org/Manbo-/bot2ch)
 
+## Install
+    $ git clone https://github.com/Manbo-/bot2ch.git
+    $ cd ./bot2ch
+    $ rake install
+
 ## Usage
 
     football = Bot2ch::Menu.get_board("football")

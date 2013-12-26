@@ -3,7 +3,7 @@ class Faraday::Response
     def call(env)
       @app.call(env).on_complete do
         content_type = env[:response_headers]["content-type"].split(";").first
-        if content_type == "text/plain"
+        if %w(text/plain text/html).include?(content_type)
           env[:body] = scrub(env[:body]).encode("UTF-8")
         end
       end
