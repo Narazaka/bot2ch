@@ -57,7 +57,7 @@ describe Bot2ch::Thread do
 
   describe "#ikioi" do
     it do
-      expect(@thread.ikioi).to be_a_kind_of Integer
+      expect(@thread.ikioi).to be_a_kind_of Float
     end
   end
 

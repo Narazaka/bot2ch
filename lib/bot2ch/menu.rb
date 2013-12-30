@@ -10,22 +10,15 @@ module Bot2ch
 
       def reload
         @menu = Client.get(BBS_MENU).map do |line|
-          Board.new($1) if line =~ regexp
+          Board.new($1, $2) if line =~ /<A\sHREF=([^>\s]+)>(.+)<\/A>/
         end.compact
-        @menu.select{ |board| board.url =~ URI.regexp }
       end
 
       def get_board(subdir)
         menu.each do |board|
-          return board if board.url =~ regexp(subdir)
+          return board if board.url =~ /#{Regexp.quote(subdir)}/
         end
         raise ArgumentError
-      end
-
-      private
-
-      def regexp(subdir = nil)
-        subdir ? %r</#{subdir}/>i : /href=([^\s>"]+)/i
       end
     end
   end

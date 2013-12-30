@@ -9,6 +9,7 @@
 ## Usage
 
     football = Bot2ch::Menu.get_board("football")
+    football.name # => "海外サッカー"
     thread = football.threads.find{ |thread| thread.title =~ /nanika/ }
     puts thread.title # title_body + posts_count
     puts thread.title_body
