@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Bot2ch::Thread do
   let(:url){ "http://ikura.2ch.net/football/dat/1366976995.dat" }
-  let(:title){ "TITLE" }
+  let(:title){ "TITLE (32)" }
   before{ @thread = Bot2ch::Thread.new(url, title) }
   subject{ @thread }
 
@@ -34,6 +34,36 @@ describe Bot2ch::Thread do
         @posts = @thread.posts
       end
       expect(@posts).to be_a_kind_of(Array)
+    end
+  end
+
+  describe "#title" do
+    it do
+      expect(@thread.title).to eq title
+    end
+  end
+
+  describe "#title_body" do
+    it do
+      expect(@thread.title_body).to eq "TITLE"
+    end
+  end
+
+  describe "#posts_count" do
+    it do
+      expect(@thread.posts_count).to eq 32
+    end
+  end
+
+  describe "#ikioi" do
+    it do
+      expect(@thread.ikioi).to be_a_kind_of Integer
+    end
+  end
+
+  describe "#start_time" do
+    it do
+      expect(@thread.start_time).to eq Time.at(1366976995)
     end
   end
 end

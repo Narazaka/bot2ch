@@ -49,5 +49,29 @@ module Bot2ch
     def ita
       @dat.split("/")[3]
     end
+
+    def title_body
+      parse_title.first
+    end
+
+    def posts_count
+      parse_title.last
+    end
+
+    def ikioi
+      posts_count / (Time.now - start_time).round * 24
+    end
+
+    def start_time
+      Time.at(dat_no.to_i)
+    end
+
+    private
+
+    def parse_title
+      if @title =~ /^(.+)\s\((\d+?)\)$/
+        [$1, $2.to_i]
+      end
+    end
   end
 end

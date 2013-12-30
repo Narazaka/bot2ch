@@ -10,7 +10,10 @@
 
     football = Bot2ch::Menu.get_board("football")
     thread = football.threads.find{ |thread| thread.title =~ /nanika/ }
-    puts thread.title
+    puts thread.title # title_body + posts_count
+    puts thread.title_body
+    puts thread.posts_count
+    puts thread.ikioi
     thread.posts.each do |post|
       puts post.plain # or post.block
       post.replies.each do |reply|
