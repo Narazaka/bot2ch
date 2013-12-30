@@ -1,7 +1,8 @@
 module Bot2ch
   class Board
-    def initialize(url)
+    def initialize(url, name = nil)
       @url = url
+      @name = nil
       @subject = URI.join(url, "subject.txt")
     end
 

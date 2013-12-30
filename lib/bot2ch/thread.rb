@@ -59,7 +59,7 @@ module Bot2ch
     end
 
     def ikioi
-      posts_count / (Time.now - start_time).round * 24
+      posts_count / (Time.now - start_time) * 24
     end
 
     def start_time
