@@ -1,5 +1,6 @@
 require "faraday"
 require "faraday_middleware"
+require "faraday/response/encoder"
 require "singleton"
 
 module Bot2ch
@@ -16,8 +17,10 @@ module Bot2ch
     end
 
     def initialize
+      encoder_options = { source: "SJIS", encoding: "UTF-8", text_only: true, replace: "",
+        if: ->(env){ env[:url].to_s =~ %r(\Ahttp://[^\/]+\.2ch\.net/) } }
       @client = Faraday.new do |builder|
-        builder.use Faraday::Response::SjisToUTF8
+        builder.response :encoder, encoder_options
         builder.use FaradayMiddleware::FollowRedirects, limit: 3
         builder.use Faraday::Response::RaiseError
         builder.adapter :net_http
