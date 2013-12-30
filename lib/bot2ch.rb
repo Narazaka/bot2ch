@@ -2,7 +2,7 @@ require 'fileutils'
 
 require "faraday"
 require "faraday_middleware"
-require "faraday/response/sjis_to_utf8"
+require "faraday/response/encoder"
 
 require "bot2ch/client"
 require "bot2ch/menu"
