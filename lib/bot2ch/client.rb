@@ -17,10 +17,13 @@ module Bot2ch
     end
 
     def initialize
-      options = { from: "SJIS", to: "UTF-8", text_only: true, replace: "",
+      options = { from: "Shift_JIS", to: "UTF-8", text_only: true, replace: "",
         if: ->(env){ env[:url].to_s =~ %r(\Ahttp://[^\/]+\.2ch\.net/) } }
+      shitaraba_options = { from: "EUC-JP", to: "UTF-8", text_only: true, replace: "",
+        if: ->(env){ env[:url].to_s =~ %r(\Ahttp://jbbs\.shitaraba\.net/) } }
       @client = Faraday.new do |builder|
         builder.response :encoder, options
+        builder.response :encoder, shitaraba_options
         builder.use FaradayMiddleware::FollowRedirects, limit: 3
         builder.use Faraday::Response::RaiseError
         builder.adapter :net_http

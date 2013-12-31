@@ -1,69 +1,21 @@
 require "spec_helper"
 
 describe Bot2ch::Thread do
-  let(:url){ "http://ikura.2ch.net/football/dat/1366976995.dat" }
-  let(:title){ "TITLE (32)" }
-  before{ @thread = Bot2ch::Thread.new(url, title) }
-  subject{ @thread }
-
-  it do
-    expect(Bot2ch::Thread.dat?(url)).to be_truthy
+  let(:thread) do
+    Bot2ch::Thread.new(url, title)
   end
 
-  describe '#url' do
-    it do
-      expect(@thread.url).to eq "http://ikura.2ch.net/test/read.cgi/football/1366976995/"
-    end
-  end
+  let(:url){ "http://ikura.2ch.net/test/read.cgi/football/#{dat_no}/" }
+  let(:dat){ "http://ikura.2ch.net/football/dat/#{dat_no}.dat" }
+  let(:title){ "#{title_body} (#{posts_count})" }
 
-  describe '#dat_no' do
-    it do
-      expect(@thread.dat_no).to eq "1366976995"
-    end
-  end
+  let(:title_body){ "TITLE" }
+  let(:posts_count){ 32 }
 
-  describe '#ita' do
-    it do
-      expect(@thread.ita).to eq "football"
-    end
-  end
+  let(:ita){ "football" }
+  let(:dat_no){ "1366976995" }
 
-  describe "#posts" do
-    it do
-      VCR.use_cassette("posts") do
-        @posts = @thread.posts
-      end
-      expect(@posts).to be_a_kind_of(Array)
-    end
-  end
-
-  describe "#title" do
-    it do
-      expect(@thread.title).to eq title
-    end
-  end
-
-  describe "#title_body" do
-    it do
-      expect(@thread.title_body).to eq "TITLE"
-    end
-  end
-
-  describe "#posts_count" do
-    it do
-      expect(@thread.posts_count).to eq 32
-    end
-  end
-
-  describe "#ikioi" do
-    it do
-      expect(@thread.ikioi).to be_a_kind_of Float
-    end
-  end
-
-  describe "#start_time" do
-    it do
-      expect(@thread.start_time).to eq Time.at(1366976995)
-    end
+  it_behaves_like "a thread" do
+    let(:described_class){ Bot2ch::Thread }
   end
 end

@@ -11,3 +11,5 @@ require "bot2ch/thread"
 require "bot2ch/post"
 require "bot2ch/thread"
 require "bot2ch/version"
+
+require "bot2ch/shitaraba"

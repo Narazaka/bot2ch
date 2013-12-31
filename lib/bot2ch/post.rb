@@ -3,6 +3,10 @@ module Bot2ch
   class Post
     attr_accessor :name, :email, :date, :body, :index, :id, :thread
 
+    def initialize
+      yield self if block_given?
+    end
+
     def url
       "#{self.thread.url}/#{self.index}"
     end

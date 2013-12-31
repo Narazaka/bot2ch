@@ -1,26 +1,32 @@
 module Bot2ch
   class Thread
     class << self
-      def url_to_dat(url)
+      def datlize(url)
+        return url if dat?(url)
         list = url.split('/')
         "http://#{list[2]}/#{list[5]}/dat/#{list[6]}.dat"
       end
 
+      def urlize(dat)
+        return dat unless dat?(dat)
+        list = dat.split('/').reject{|f| f == ''}
+        "http://#{list[1]}/test/read.cgi/#{list[2]}/#{list[4][/\d+/]}/"
+      end
+
       def dat?(url)
-        url =~ %r[/dat/] and url =~ /\.dat$/
+        !!(url =~ %r[/dat/] and url =~ /\.dat$/)
       end
     end
 
     attr_accessor :dat, :title
 
     def initialize(url, title = nil)
-      @dat = Thread.dat?(url) ? url : Thread.url_to_dat(url)
+      @dat = self.class.dat?(url) ? url : self.class.datlize(url)
       @title = title.strip if title
     end
 
     def url
-      list = @dat.split('/').reject{|f| f == ''}
-      "http://#{list[1]}/test/read.cgi/#{list[2]}/#{list[4][/\d+/]}/"
+      self.class.urlize(@dat)
     end
 
     def posts
@@ -69,9 +75,7 @@ module Bot2ch
     private
 
     def parse_title
-      if @title =~ /^(.+)\s\((\d+?)\)$/
-        [$1, $2.to_i]
-      end
+      [$1.strip, $2.to_i] if @title =~ /^(.+)\s*\((\d+?)\)$/
     end
   end
 end

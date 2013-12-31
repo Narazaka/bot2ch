@@ -12,12 +12,8 @@ describe Bot2ch::Board do
       end
     end
 
-    it do
-      expect(threads).to be_a_kind_of Array
-    end
-
-    it do
-      expect(threads).to be_all{ |thread| thread.kind_of?(Bot2ch::Thread) }
+    it_behaves_like "a board" do
+      let(:expectation){ Bot2ch::Thread }
     end
   end
 end

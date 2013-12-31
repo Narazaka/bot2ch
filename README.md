@@ -7,6 +7,7 @@
     $ rake install
 
 ## Usage
+### 2ch
 
     football = Bot2ch::Menu.get_board("football")
     football.name # => "海外サッカー"
@@ -21,6 +22,12 @@
         puts "\t#{reply.plain}"
       end
     end
+
+### したらば
+    Bot2ch::Shitaraba::Board.new("http://jbbs.shitaraba.net/../..")
+
+## See also
+http://github.com/Manbo-/bot2ch-downloader
 
 ## Contributing
 
