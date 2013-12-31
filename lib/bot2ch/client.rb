@@ -17,10 +17,10 @@ module Bot2ch
     end
 
     def initialize
-      encoder_options = { source: "SJIS", encoding: "UTF-8", text_only: true, replace: "",
+      options = { from: "SJIS", to: "UTF-8", text_only: true, replace: "",
         if: ->(env){ env[:url].to_s =~ %r(\Ahttp://[^\/]+\.2ch\.net/) } }
       @client = Faraday.new do |builder|
-        builder.response :encoder, encoder_options
+        builder.response :encoder, options
         builder.use FaradayMiddleware::FollowRedirects, limit: 3
         builder.use Faraday::Response::RaiseError
         builder.adapter :net_http
