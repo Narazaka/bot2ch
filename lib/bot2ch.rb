@@ -10,6 +10,7 @@ require "bot2ch/board"
 require "bot2ch/thread"
 require "bot2ch/post"
 require "bot2ch/thread"
+require "bot2ch/helper"
 require "bot2ch/version"
 
 require "bot2ch/shitaraba"

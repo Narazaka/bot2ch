@@ -6,14 +6,15 @@ module Bot2ch
       @subject = URI.join(url, "subject.txt")
     end
 
-    attr_reader :url, :subject, :name
+    attr_reader :url, :subject, :name, :response
 
     def threads
       @threads ||= reload
     end
 
     def reload
-      Client.get(@subject).map do |line|
+      @response = Client.get(@subject)
+      Bot2ch::Helper.make_array_of_response(@response).map do |line|
         dat, title = line.split("<>")
         Thread.new("#{@url}dat/#{dat}", title)
       end

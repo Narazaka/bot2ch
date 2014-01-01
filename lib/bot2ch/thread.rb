@@ -18,7 +18,7 @@ module Bot2ch
       end
     end
 
-    attr_accessor :dat, :title
+    attr_accessor :dat, :title, :response
 
     def initialize(url, title = nil)
       @dat = self.class.dat?(url) ? url : self.class.datlize(url)
@@ -34,7 +34,8 @@ module Bot2ch
     end
 
     def reload
-      @posts = Client.get(@dat).map.with_index(1) do |line, index|
+      @response = Client.get(@dat)
+      Bot2ch::Helper.make_array_of_response(@response).map.with_index(1) do |line, index|
         post = parse(line)
         if post
           post = Post.new(post)

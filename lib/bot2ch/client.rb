@@ -12,7 +12,7 @@ module Bot2ch
         client = Client.instance
         client.headers = headers
         client.config(&block) if block_given?
-        client.get(url).body.lines.map(&:chomp)
+        client.get(url)
       end
     end
 
