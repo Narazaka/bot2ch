@@ -35,16 +35,12 @@ module Bot2ch
 
     def reload
       @posts = Client.get(@dat).map.with_index(1) do |line, index|
-        post = Post.new
-        name, email, _date, body = line.split('<>')
-        next unless _date =~ /\d/
-        date = Time.local(*_date.scan(/\d+/)[0..5]) rescue next
-        id = _date.scan(/ID:(.*)$/).flatten.first
-        %w{name email date id body index}.each{ |key|
-          eval "post.#{key} = #{key}"
-        }
-        post.thread = self
-        post
+        post = parse(line)
+        if post
+          post = Post.new(post)
+          post.thread = self
+          post
+        end
       end.compact
     end
 
@@ -73,6 +69,14 @@ module Bot2ch
     end
 
     private
+
+    def parse(line)
+      name, email, _date, body = line.split('<>')
+      return unless _date =~ /\d/
+      date = Time.local(*_date.scan(/\d+/)[0..5]) rescue return
+      id = _date.scan(/ID:(.*)$/).flatten.first
+      { name: name, email: email, date: date, body: body, id: id }
+    end
 
     def parse_title
       [$1.strip, $2.to_i] if @title =~ /^(.+)\s*\((\d+?)\)$/

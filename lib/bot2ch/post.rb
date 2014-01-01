@@ -3,7 +3,10 @@ module Bot2ch
   class Post
     attr_accessor :name, :email, :date, :body, :index, :id, :thread
 
-    def initialize
+    def initialize(params = {})
+      params.each do |name, value|
+        send("#{name}=", value)
+      end
       yield self if block_given?
     end
 
