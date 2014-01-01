@@ -1,12 +1,15 @@
 module Bot2ch
   class Board
     def initialize(url, name = nil)
-      @url = url
-      @name = name
+      @url, @name = url, name
       @subject = URI.join(url, "subject.txt")
     end
 
     attr_reader :url, :subject, :name, :response
+
+    def directory
+      @url.split("/").last
+    end
 
     def threads
       @threads ||= reload

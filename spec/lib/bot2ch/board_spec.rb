@@ -5,6 +5,10 @@ describe Bot2ch::Board do
     @board = Bot2ch::Board.new("http://ikura.2ch.net/football/")
   end
 
+  it do
+    expect(@board.directory).to eq "football"
+  end
+
   describe "#threads" do
     let(:threads) do
       VCR.use_cassette("threads") do

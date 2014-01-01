@@ -19,9 +19,15 @@ module Bot2ch
 
       def get_board(subdir)
         menu.each do |board|
-          return board if ![board.url, board.name].grep(/#{Regexp.quote(subdir)}/).empty?
+          return board if ![board.directory, board.name].grep(subdir).empty?
         end
         raise ArgumentError
+      end
+
+      def get_boards(subdir)
+        menu.select do |board|
+          ![board.directory, board.name].grep(subdir).empty?
+        end
       end
     end
   end
