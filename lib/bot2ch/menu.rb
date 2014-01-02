@@ -17,16 +17,14 @@ module Bot2ch
         end.compact
       end
 
-      def get_board(subdir)
-        menu.each do |board|
-          return board if ![board.directory, board.name].grep(subdir).empty?
-        end
-        raise ArgumentError
+      def get_board(directory)
+        raise ArgumentError unless board = get_boards(directory).first
+        board
       end
 
-      def get_boards(subdir)
+      def get_boards(directory)
         menu.select do |board|
-          ![board.directory, board.name].grep(subdir).empty?
+          ![board.directory, board.name].grep(directory).empty?
         end
       end
     end
