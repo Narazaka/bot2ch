@@ -48,14 +48,24 @@ shared_examples_for "a thread" do
   end
 
   describe "#posts" do
-    it do
+    let(:posts) do
       VCR.use_cassette("#{described_class}-posts") do
-        @posts = thread.posts
+        thread.posts
       end
+    end
 
-      expect(@posts).to be_a_kind_of(Array)
+    it do
+      expect(posts).to be_a_kind_of(Array)
+    end
+
+    it do
+      post = posts.first
+      [:name, :email, :date, :body, :index, :id].each do |method_name|
+        expect(post.send(method_name)).to_not be_nil
+      end
     end
   end
+  
 
   describe "#title" do
     it do

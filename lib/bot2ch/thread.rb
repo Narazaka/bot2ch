@@ -38,9 +38,10 @@ module Bot2ch
       Bot2ch::Helper.make_array_of_response(@response).map.with_index(1) do |line, index|
         post = parse(line)
         if post
-          post = Post.new(post)
-          post.thread = self
-          post
+          Post.new(post) do |p|
+            p.index = index
+            p.thread = nil
+          end
         end
       end.compact
     end
