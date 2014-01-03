@@ -2,30 +2,66 @@ module Bot2ch
   class Board
     def initialize(url, name = nil)
       @url, @name = url, name
-      @subject = URI.join(url, "subject.txt")
+      @source = source(@url, self)
     end
 
-    attr_reader :url, :subject, :name, :response
+    attr_reader :name, :response
 
-    def directory
-      @url.split("/").last
-    end
+    include Bot2ch::Helper
+
+    extend Forwardable
+    def_delegators :@source, :get_source, :directory, :dat_path
 
     def threads
       @threads ||= reload
     end
 
     def reload
-      @response = Client.get(@subject)
-      Bot2ch::Helper.make_array_of_response(@response).map do |line|
+      @response = get_source
+      make_array_of_response(@response).map do |line|
         dat, title = line.split("<>")
-        Thread.new("#{@url}dat/#{dat}", title)
+        Thread.new(dat_path(dat), title)
       end
     end
 
-    def each
-      threads.each{ |thread| yield thread }
+    class Local
+      def initialize(path)
+        @path = path
+      end
+
+      def get_source
+        open(@path).read
+      end
+
+      def directory
+        ""
+      end
+
+      def dat_path(dat)
+        dat
+      end
     end
-    include Enumerable
+    
+    class Remote
+      def initialize(url)
+        @url = url
+      end
+
+      def get_source
+        Client.get(subject)
+      end
+
+      def directory
+        @url.split("/").last
+      end
+
+      def subject
+        URI.join(@url, "subject.txt").to_s
+      end
+
+      def dat_path(dat)
+        "#{@url}dat/#{dat}"        
+      end
+    end
   end
 end

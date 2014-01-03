@@ -1,40 +1,21 @@
 module Bot2ch
   class Thread
-    class << self
-      def datlize(url)
-        return url if dat?(url)
-        list = url.split('/')
-        "http://#{list[2]}/#{list[5]}/dat/#{list[6]}.dat"
-      end
-
-      def urlize(dat)
-        return dat unless dat?(dat)
-        list = dat.split('/').reject{|f| f == ''}
-        "http://#{list[1]}/test/read.cgi/#{list[2]}/#{list[4][/\d+/]}/"
-      end
-
-      def dat?(url)
-        !!(url =~ %r[/dat/] and url =~ /\.dat$/)
-      end
+    def initialize(url, title = nil)
+      @source = Bot2ch::Helper.source(url, self)
+      @title = title.strip if title
     end
 
     attr_accessor :dat, :title, :response
 
-    def initialize(url, title = nil)
-      @dat = self.class.dat?(url) ? url : self.class.datlize(url)
-      @title = title.strip if title
-    end
-
-    def url
-      self.class.urlize(@dat)
-    end
+    extend Forwardable
+    def_delegators :@source, :get_source, :url, :dat_no, :ita
 
     def posts
       @posts ||= reload
     end
 
     def reload
-      @response = Client.get(@dat)
+      @response = get_source
       Bot2ch::Helper.make_array_of_response(@response).map.with_index(1) do |line, index|
         post = parse(line)
         if post
@@ -44,14 +25,6 @@ module Bot2ch
           end
         end
       end.compact
-    end
-
-    def dat_no
-      File.basename(@dat, '.dat')
-    end
-
-    def ita
-      @dat.split("/")[3]
     end
 
     def title_body
@@ -82,6 +55,68 @@ module Bot2ch
 
     def parse_title
       [$1.strip, $2.to_i] if @title =~ /^(.+)\s*\((\d+?)\)$/
+    end
+
+    class Local
+      def initialize(dat)
+        @dat = dat
+      end
+
+      def get_source
+        open(@dat).read
+      end
+
+      # TODO
+      def url
+      end
+
+      def dat_no
+        File.basename(@dat, ".*")
+      end
+        
+      # TODO
+      def ita
+      end
+    end
+
+    class Remote
+      class << self
+        def datlize(url)
+          return url if dat?(url)
+          list = url.split('/')
+          "http://#{list[2]}/#{list[5]}/dat/#{list[6]}.dat"
+        end
+
+        def urlize(dat)
+          return dat unless dat?(dat)
+          list = dat.split('/').reject{|f| f == ''}
+          "http://#{list[1]}/test/read.cgi/#{list[2]}/#{list[4][/\d+/]}/"
+        end
+
+        def dat?(url)
+          !!(url =~ %r[/dat/] and url =~ /\.dat$/)
+        end
+      end
+
+      def initialize(url)
+        @dat = self.class.dat?(url) ? url : self.class.datlize(url)
+      end
+      
+      def get_source
+        Client.get(@dat)
+      end
+
+      def url
+        self.class.urlize(@dat)
+      end
+
+      def dat_no
+        File.basename(@dat, '.dat')
+      end
+
+      def ita
+        @dat.split("/")[3]
+      end
     end
   end
 end
