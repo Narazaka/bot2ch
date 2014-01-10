@@ -60,7 +60,7 @@ module Bot2ch
       end
 
       def dat_path(dat)
-        "#{@url}dat/#{dat}"        
+        "#{@url}dat/#{dat}"
       end
     end
   end

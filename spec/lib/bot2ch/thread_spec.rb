@@ -1,5 +1,25 @@
 require "spec_helper"
 
+shared_examples_for "a local" do
+  describe '#url' do
+    it do
+      expect(thread.url).to be_nil
+    end
+  end
+
+  describe '#dat_no' do
+    it do
+      expect(thread.dat_no).to eq dat_no
+    end
+  end
+
+  describe '#ita' do
+    it do
+      expect(thread.ita).to be_nil
+    end
+  end
+end
+
 describe Bot2ch::Thread do
   let(:thread) do
     Bot2ch::Thread.new(url, title)
@@ -71,28 +91,24 @@ describe Bot2ch::Thread do
   end
 
   context "when Local" do
-    let(:url){ "./spec/dummy/#{dat_no}.dat" }
+    context "with path" do
+      let(:url){ "./spec/dummy/#{dat_no}.dat" }
 
-    it_behaves_like "a thread" do
-      let(:described_class){ Bot2ch::Thread }
+      it_behaves_like "a thread" do
+        let(:described_class){ Bot2ch::Thread }
+      end
+
+      it_behaves_like "a local"
     end
 
-    describe '#url' do
-      it do
-        expect(thread.url).to be_nil
-      end
-    end
+    context "with file" do
+      let(:url){ open("./spec/dummy/#{dat_no}.dat") }
 
-    describe '#dat_no' do
-      it do
-        expect(thread.dat_no).to eq dat_no
+      it_behaves_like "a thread" do
+        let(:described_class){ Bot2ch::Thread }
       end
-    end
 
-    describe '#ita' do
-      it do
-        expect(thread.ita).to be_nil
-      end
+      it_behaves_like "a local"
     end
   end
 end

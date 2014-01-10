@@ -12,7 +12,7 @@ module Bot2ch
 
       def reload
         @response = Client.get(BBS_MENU)
-        Bot2ch::Helper.make_array_of_response(Bot2ch::Menu.response).map do |line|
+        Bot2ch::Helper.make_array_of_response(@response).map do |line|
           Board.new($1, $2) if line =~ /<A\sHREF=([^>\s]+)>(.+)<\/A>/
         end.compact
       end

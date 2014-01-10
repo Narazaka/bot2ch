@@ -24,17 +24,31 @@ describe Bot2ch::Board do
   end
 
   context "when Local" do
-    let(:board) do
-      Bot2ch::Board.new("./spec/dummy/subject.txt")
+    let(:threads) do
+      @threads = board.threads
     end
 
-    describe "#threads" do
-      let(:threads) do
-        @threads = board.threads
+    context "with path" do
+      let(:board) do
+        Bot2ch::Board.new("./spec/dummy/subject.txt")
       end
 
-      it_behaves_like "a board" do
-        let(:expectation){ Bot2ch::Thread }
+      describe "#threads" do
+        it_behaves_like "a board" do
+          let(:expectation){ Bot2ch::Thread }
+        end
+      end
+    end
+
+    context "with file" do
+      let(:board) do
+        Bot2ch::Board.new(open("./spec/dummy/subject.txt"))
+      end
+
+      describe "#threads" do
+        it_behaves_like "a board" do
+          let(:expectation){ Bot2ch::Thread }
+        end
       end
     end
   end

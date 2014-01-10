@@ -1,7 +1,8 @@
 module Bot2ch::Shitaraba
   class Board < Bot2ch::Board
     def reload
-      Bot2ch::Helper.make_array_of_response(get_source).map do |line|
+      @response = get_source
+      Bot2ch::Helper.make_array_of_response(@response).map do |line|
         dat, title = line.split("cgi,", 2)
         Thread.new(dat_path(dat), title)
       end

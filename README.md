@@ -10,11 +10,10 @@
 ### 2ch
 
     football = Bot2ch::Menu.get_board("football")
+    Bot2ch::Menu.response # => faraday response
     football.name # => "海外サッカー"
     thread = football.threads.find{ |thread| thread.title =~ /nanika/ }
     puts thread.title # title_body + posts_count
-    puts thread.title_body
-    puts thread.posts_count
     puts thread.ikioi
     thread.posts.each do |post|
       puts post.plain # or post.block
@@ -25,6 +24,10 @@
 
 ### したらば
     Bot2ch::Shitaraba::Board.new("http://jbbs.shitaraba.net/../..")
+
+### ローカルファイル
+    Bot2ch::Board.new("/path/to/file")
+    Bot2ch::Thread.new("/path/to/file")
 
 ## See also
 http://github.com/Manbo-/bot2ch-downloader
