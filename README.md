@@ -9,18 +9,50 @@
 ## Usage
 ### 2ch
 
-    football = Bot2ch::Menu.get_board("football")
-    Bot2ch::Menu.response # => faraday response
-    football.name # => "海外サッカー"
-    thread = football.threads.find{ |thread| thread.title =~ /nanika/ }
-    puts thread.title # title_body + posts_count
-    puts thread.ikioi
-    thread.posts.each do |post|
-      puts post.plain # or post.block
-      post.replies.each do |reply|
-        puts "\t#{reply.plain}"
-      end
-    end
+    require "bot2ch"
+
+#### Menu
+
+Return array of Bot2ch::Board
+
+    Bot2ch::Menu.boards
+    Bot2ch::Menu.boards("サッカー")
+    Bot2ch::Menu.boards(/ball/)
+
+Return Bot2ch::Board
+
+    Bot2ch::Menu.board("海外サッカー")
+    Bot2ch::Menu.board(/football/)
+
+##### Category
+    Bot2ch::Menu.categories # => ["地震", "おすすめ", "特別企画", ...]
+    Bot2ch::Menu.category("ニュース") # => [Bot2ch::Board, Bot2ch::Board, Bot2ch::Board, ...]
+
+#### Board
+    football = Bot2ch::Menu.board("海外サッカー")
+    football.threads # => [Bot2ch::Thread, Bot2ch::Thread, Bot2ch::Thread, ...]
+
+#### Thread
+    thread.title # => "TITLE_BODY (POSTS_COUNT)"
+    thread.title_body
+    thread.posts_count
+    thread.ikioi
+    thread.posts #=> [Bot2ch::Post, Bot2ch::Post, Bot2ch::Post, ...]
+
+#### Post
+     [:name, :email, :date, :body, :index, :id, :thread].each do |name|
+       post.send(name)
+     end
+
+     post.replies # => [Bot2ch::Post, Bot2ch::Post, Bot2ch::Post, ...]
+
+##### #plain
+    1 : 名無しさん(sage) : 日付 ID:abcdefg
+    <br>を\n、その他のHTMLタグを削除した本文
+
+##### #block
+    1 : 名無しさん(sage) : 日付 ID:abcdefg
+    DATそのままの本文
 
 ### したらば
     Bot2ch::Shitaraba::Board.new("http://jbbs.shitaraba.net/../..")
