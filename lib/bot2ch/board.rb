@@ -1,11 +1,11 @@
 module Bot2ch
   class Board
-    def initialize(url, name = nil)
-      @url, @name = url, name
+    def initialize(url, name = nil, category = nil)
+      @url, @name, @category = url, name, category
       @source = source(@url, self)
     end
 
-    attr_reader :name, :response
+    attr_reader :name, :category, :response
 
     include Bot2ch::Helper
 

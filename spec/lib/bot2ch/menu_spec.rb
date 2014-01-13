@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require "spec_helper"
 
 describe Bot2ch::Menu do
@@ -48,6 +49,22 @@ describe Bot2ch::Menu do
       it do
         expect(Bot2ch::Menu.get_boards(/ff/)).to be_all{ |board| board.is_a?(Bot2ch::Board) }
       end
+    end
+  end
+
+  describe ".category" do
+    it do
+      expect(Bot2ch::Menu.category("ニュース")).to be_a_kind_of Array
+    end
+
+    it do
+      expect(Bot2ch::Menu.category("ニュース")).to be_all{ |board| board.kind_of?(Bot2ch::Board) }
+    end
+  end
+
+  describe ".categories" do
+    it do
+      expect(Bot2ch::Menu.categories).to be_a_kind_of Array
     end
   end
 end
