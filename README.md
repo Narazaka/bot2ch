@@ -6,6 +6,12 @@
     $ cd ./bot2ch
     $ rake install
 
+Unless you've already installed faraday-response-encoder, you have to install it.
+
+    $ git clone https://github.com/Manbo-/faraday-response-encoder.git
+    $ cd ./faraday-response-encoder
+    $ rake install
+
 ## Usage
 ### 2ch
 
