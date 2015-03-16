@@ -26,7 +26,7 @@ module Bot2ch
       end
 
       def get_board(directory)
-        raise ArgumentError unless board = get_boards(directory).first
+        raise ArgumentError.new("Board NotFound. [#{directory}]") unless board = get_boards(directory).first
         board
       end
       alias board get_board
