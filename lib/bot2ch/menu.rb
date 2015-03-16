@@ -4,14 +4,19 @@ module Bot2ch
     BBS_MENU = 'http://menu.2ch.net/bbsmenu.html'
 
     class << self
+      attr_accessor :bbs_menu_url
       attr_reader :response
+
+      def initialize
+        self.bbs_menu_url = BBS_MENU
+      end
 
       def menu
         @menu ||= reload
       end
 
       def reload
-        @response = Client.get(BBS_MENU)
+        @response = Client.get(self.bbs_menu_url)
         category = nil
         boards = Bot2ch::Helper.make_array_of_response(@response).map do |line|
           category = $1 if line =~ /<B>(.+)<\/B>/
