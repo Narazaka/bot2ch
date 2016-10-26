@@ -3,7 +3,7 @@ module Bot2ch::Shitaraba
     def reload
       @response = get_source
       Bot2ch::Helper.make_array_of_response(@response).map do |line|
-        dat, title = line.split("cgi,", 2)
+        dat, title = line.split(".cgi,", 2)
         Thread.new(dat_path(dat), title)
       end
     end
@@ -30,7 +30,9 @@ module Bot2ch::Shitaraba
       end
 
       def dat_path(dat)
-        "#{@url}dat/#{dat}"        
+        url = URI.parse(@url)
+        url.path = "/bbs/rawmode.cgi#{url.path}#{dat}"
+        url.to_s
       end
     end
   end
