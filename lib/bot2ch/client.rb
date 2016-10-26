@@ -18,7 +18,7 @@ module Bot2ch
 
     def initialize
       options = { from: "Shift_JIS", to: "UTF-8", text_only: true, replace: "",
-        if: ->(env){ env[:url].to_s =~ %r(\Ahttp://[^\/]+\.2ch\.net/) } }
+        if: ->(env){ env[:url].to_s =~ %r(\Ahttp://[^\/]+\.2ch\.(net|sc)/) } }
       shitaraba_options = { from: "EUC-JP", to: "UTF-8", text_only: true, replace: "",
         if: ->(env){ env[:url].to_s =~ %r(\Ahttp://jbbs\.shitaraba\.net/) } }
       @client = Faraday.new do |builder|
